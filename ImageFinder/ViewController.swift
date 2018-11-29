@@ -12,9 +12,19 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        APIManager.standard.getImages(for: "balloon") { response in
+            
+            switch response {
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            case .success(let searchResult):
+                print(searchResult)
+            }
+            
+        }
     }
-
-
 }
 
