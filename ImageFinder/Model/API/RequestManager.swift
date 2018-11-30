@@ -56,11 +56,9 @@ extension APIManager {
                 
                 do {
                     
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(SearchResult.self, from: data)
+                    let result = try SearchResult.parse(from: data)
                     completion(.success(value: result))
-                    
+
                 } catch let error {
                     completion(.failure(error))
                 }

@@ -16,3 +16,13 @@ struct SearchResult: Codable {
     
     var results: [Image]
 }
+
+extension SearchResult {
+    
+    static func parse(from data: Data) throws -> SearchResult {
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return try decoder.decode(SearchResult.self, from: data)
+    }
+}
