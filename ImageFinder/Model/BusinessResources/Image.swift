@@ -12,6 +12,8 @@ struct Image: Codable {
     
     var id: String
     
+    var createdAt: String
+    
     var width: Int
     
     var height: Int
@@ -36,6 +38,10 @@ struct Image: Codable {
 
 extension Image {
 
+    var ratio: Float {
+        return Float(self.height) / Float(self.width)
+    }
+    
     var downloadURL: URL? {
         return URL(string: self.links.download)
     }
