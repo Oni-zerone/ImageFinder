@@ -32,6 +32,6 @@ extension Downloadable {
             DispatchQueue.main.async {
                 completion(image)
             }
-        }
+        }.resume()
     }
 }

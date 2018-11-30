@@ -8,21 +8,11 @@
 
 import Foundation
 
-struct SearchResult: Codable {
+struct SearchResult: Parsable {
     
     var total: Int
     
     var totalPages: Int
     
     var results: [Image]
-}
-
-extension SearchResult {
-    
-    static func parse(from data: Data) throws -> SearchResult {
-        
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return try decoder.decode(SearchResult.self, from: data)
-    }
 }

@@ -14,7 +14,7 @@ struct ImageViewModel: ItemViewModel {
         return UnsplashCell.nibIdentifier
     }
     
-    var image: Image
+    var fullImage: FullImage
     
     var multiplier: CGFloat {
         
