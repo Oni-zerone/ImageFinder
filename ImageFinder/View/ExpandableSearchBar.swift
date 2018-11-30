@@ -15,6 +15,15 @@ class ExpandableSearchBar: UIView {
     weak var textField: UITextField!
     fileprivate weak var bubbleView: UIView!
     
+    var text: String? {
+        set {
+            self.textField.text = newValue
+        }
+        get {
+            return self.textField.text
+        }
+    }
+    
     weak var delegate: ExpandableSearchBarDelegate?
     
     override init(frame: CGRect) {
@@ -89,6 +98,12 @@ class ExpandableSearchBar: UIView {
         view.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
         view.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
         self.bubbleView = view
+    }
+    
+    @discardableResult
+    override func becomeFirstResponder() -> Bool {
+
+        return self.textField.becomeFirstResponder()
     }
 }
 
