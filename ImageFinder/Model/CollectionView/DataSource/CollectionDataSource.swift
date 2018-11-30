@@ -15,6 +15,8 @@ protocol InteractionDelegate: class {
 
 class CollectionDataSource: NSObject {
 
+    fileprivate var sectionModules: [Int : SizeModule] = [:]
+    
     weak var interactionDelegate: InteractionDelegate?
     weak var scrollViewDelegate: UIScrollViewDelegate?
     
@@ -22,6 +24,8 @@ class CollectionDataSource: NSObject {
 
     var model: CollectionModel {
         didSet {
+            
+            self.sectionModules = [:]
             self.collectionView?.reloadData()
         }
     }
@@ -59,11 +63,48 @@ extension CollectionDataSource: UICollectionViewDataSource {
     }
 }
 
-extension CollectionDataSource: UICollectionViewDelegate {
+extension CollectionDataSource: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let model = self.model.item(at: indexPath) else { return }
         self.interactionDelegate?.didSelect(item: model, in: collectionView, at: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        return self.model.item(at: section)?.insets ?? .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return self.model.item(at: section)?.interItemSpacing ?? 0.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return self.model.item(at: section)?.interLineSpacing ?? 0.0
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        guard let section = self.model.item(at: indexPath.section),
+            let item = section.items.item(at: indexPath.item) else {
+            return .zero
+        }
+        
+        if let module = self.sectionModules[indexPath.section] {
+            return item.sizeofCell(in: collectionView, with: module)
+        }
+        
+        let columns = CGFloat(section.columns)
+        let internalMargins = section.interItemSpacing * max(0.0, columns - 1.0)
+        let externalMargins = section.insets.left + section.insets.right
+        let width = (collectionView.frame.width - internalMargins - externalMargins) / columns
+        let module = SizeModule(width: floor(width))
+        self.sectionModules[indexPath.section] = module
+        
+        return item.sizeofCell(in: collectionView, with: module)
     }
 }

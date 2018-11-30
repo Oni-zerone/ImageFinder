@@ -10,9 +10,14 @@ import UIKit
 
 struct UnsplashSectionViewModel: SectionViewModel {
     
+    var columns: Int {
+        
+        return 2
+    }
+    
     var items: [ItemViewModel]
     
-    var sectionInsets: UIEdgeInsets {
+    var insets: UIEdgeInsets {
         
         return UIEdgeInsets(top: 70, left: 8.0, bottom: 70, right: 8.0)
     }

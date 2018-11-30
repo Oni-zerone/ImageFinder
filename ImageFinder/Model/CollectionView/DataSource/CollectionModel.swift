@@ -12,9 +12,11 @@ typealias CollectionModel = [SectionViewModel]
 
 protocol SectionViewModel {
     
+    var columns: Int { get }
+    
     var items: [ItemViewModel] { get }
     
-    var sectionInsets: UIEdgeInsets { get }
+    var insets: UIEdgeInsets { get }
     
     var interItemSpacing: CGFloat { get }
     
