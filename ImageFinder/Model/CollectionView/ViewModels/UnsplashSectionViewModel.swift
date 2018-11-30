@@ -27,3 +27,11 @@ struct UnsplashSectionViewModel: SectionViewModel {
         return 8.0
     }
 }
+
+extension UnsplashSectionViewModel {
+    
+    static func prepare(_ searchResult: SearchResult) -> UnsplashSectionViewModel {
+        
+        return UnsplashSectionViewModel(items: searchResult.results.viewModels)
+    }
+}

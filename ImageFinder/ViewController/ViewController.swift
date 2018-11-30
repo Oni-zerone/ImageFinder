@@ -47,11 +47,37 @@ class ViewController: UIViewController {
 extension ViewController: ExpandableSearchBarDelegate {
     
     func searchBarDidBeginEditing(_ searchBar: ExpandableSearchBar) {
-        print("SEARCHBAR: didStartEditing")
+        
+        self.collectionView.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.3) {
+            self.collectionView.alpha = 0.2
+        }
     }
     
     func searchBar(_ searchBar: ExpandableSearchBar, didEndEditingWith string: String?) {
-        print("SEARCHBAR: didEndEditing string: \(string ?? "nil")")
+
+        self.collectionView.isUserInteractionEnabled = true
+        UIView.animate(withDuration: 0.3) {
+            self.collectionView.alpha = 1
+        }
+        
+        guard let string = string else {
+            self.dataSource.model = []
+            return
+        }
+        
+        APIManager.standard.getImages(for: string) { (result) in
+            
+            switch result {
+            case .failure:
+                self.dataSource.model = []
+                
+            case .success(value: let searchResult):
+                
+                let section = UnsplashSectionViewModel.prepare(searchResult)
+                self.dataSource.model = [section]
+            }
+        }
     }
 }
 

@@ -10,7 +10,10 @@ import UIKit
 
 struct ImageViewModel: ItemViewModel {
     
-    var cellIdentifier: String
+    var cellIdentifier: String {
+        return UnsplashCell.nibIdentifier
+    }
+    
     var image: Image
     
     var multiplier: CGFloat {
@@ -40,5 +43,15 @@ struct ImageViewModel: ItemViewModel {
             }
             cell.imageView.image = image
         }
+    }
+}
+
+extension Array where Element == Image {
+    
+    var viewModels: [ImageViewModel] {
+        
+        return self.map({ (image) -> ImageViewModel in
+            return ImageViewModel(image: image)
+        })
     }
 }
