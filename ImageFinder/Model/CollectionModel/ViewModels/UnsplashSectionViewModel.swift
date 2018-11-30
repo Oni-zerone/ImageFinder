@@ -14,8 +14,17 @@ struct UnsplashSectionViewModel: SectionViewModel {
         
         return 2
     }
+
+    var unsplashItems: [ImageViewModel]
     
-    var items: [ItemViewModel]
+    var items: [ItemViewModel] {
+        set {
+            self.unsplashItems  = newValue as? [ImageViewModel] ?? []
+        }
+        get {
+            return self.unsplashItems
+        }
+    }
     
     var insets: UIEdgeInsets {
         
@@ -37,6 +46,6 @@ extension UnsplashSectionViewModel {
     
     static func prepare(_ searchResult: SearchResult) -> UnsplashSectionViewModel {
         
-        return UnsplashSectionViewModel(items: searchResult.results.viewModels)
+        return UnsplashSectionViewModel(unsplashItems: searchResult.results.viewModels)
     }
 }

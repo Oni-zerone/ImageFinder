@@ -8,13 +8,16 @@
 
 import UIKit
 
-struct ImageViewModel: ItemViewModel {
+struct ImageViewModel: ItemViewModel, Hashable {
     
     var cellIdentifier: String {
         return UnsplashCell.nibIdentifier
     }
     
-    var fullImage: FullImage
+    var image: Image
+    var fullImage: FullImage?
+    
+    var loadedImage: UIImage?
     
     var multiplier: CGFloat {
         
@@ -35,23 +38,29 @@ struct ImageViewModel: ItemViewModel {
         cell.descriptionLabel.text = self.image.description
         cell.creationDateLabel.text = self.image.createdAt
         
-        self.image.loadImage { [weak collection] image in
+        if let loadedImage = self.loadedImage {
+            cell.imageView.image = loadedImage
+            return
+        }
+        
+        self.loadImage { [weak collection] image in
             
             guard let collection = collection,
                 let cell = collection.cellForItem(at: indexPath) as? UnsplashCell else {
                     return
             }
             cell.imageView.image = image
+            self.loadedImage = image
         }
     }
 }
 
-extension Array where Element == Image {
+extension ImageViewModel: Downloadable {
     
-    var viewModels: [ImageViewModel] {
-        
-        return self.map({ (image) -> ImageViewModel in
-            return ImageViewModel(image: image)
-        })
+    static var session: URLSession = URLSession(configuration: .default)
+    
+    var url: URL? {
+        guard let imagePath = self.fullImage?.urls.thumb else { return nil }
+        return URL(string: imagePath)
     }
 }

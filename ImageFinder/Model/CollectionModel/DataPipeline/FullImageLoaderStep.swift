@@ -1,0 +1,44 @@
+//
+//  FullImageLoaderStep.swift
+//  ImageFinder
+//
+//  Created by Andrea Altea on 01/12/2018.
+//  Copyright © 2018 Andrea Altea. All rights reserved.
+//
+
+import Foundation
+
+class FullImageLoaderStep: DataStep {
+    
+    var provider: APIManager = .standard
+    
+    override func success(with model: CollectionModel) {
+        guard var section = model.first as? UnsplashSectionViewModel else {
+            super.success(with: model)
+            return
+        }
+        
+        let queue = DispatchGroup()
+        (0 ..< section.items.count).forEach { index in
+            
+            queue.enter()
+            let viewModel = section.unsplashItems[index]
+            self.provider.getImage(viewModel.image.id, completion: { (result) in
+                
+                switch result {
+                    
+                case .success(let fullImage):
+                    section.unsplashItems[index].fullImage = fullImage
+                    queue.leave()
+                    
+                default:
+                    queue.leave()
+                }
+            })
+            queue.notify(queue: DispatchQueue(label: "ImageNotify"), execute: {
+                self.sendContent(.value([section]))
+            })
+        }
+        
+    }
+}

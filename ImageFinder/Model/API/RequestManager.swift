@@ -15,7 +15,7 @@ enum APIError: Error {
 }
 
 class APIManager {
-
+    
     enum Result<Value> {
         
         case success(value: Value)
@@ -34,19 +34,19 @@ class APIManager {
 
 extension APIManager {
     
-    func getImages(for query: String, page: Int = 1, queue: DispatchQueue = .main, completion: @escaping (_ result: Result<SearchResult>) -> Void) {
+    func getImages(for query: String, page: Int = 1, completion: @escaping (_ result: Result<SearchResult>) -> Void) {
         
         let path = "/search/photos"
         let search = URLQueryItem(name: "query", value: query)
         let page = URLQueryItem(name: "page", value: String(page))
         
-        self.getResource(path, queryItems: [search, page], queue: queue, completion: completion)
+        self.getResource(path, queryItems: [search, page], completion: completion)
     }
     
     func getImage(_ id: String, queue: DispatchQueue = .main, completion: @escaping (_ result: Result<FullImage>) -> Void) {
         
         let path = "/photos/" + id
-        self.getResource(path, queue: queue, completion: completion)
+        self.getResource(path, completion: completion)
     }
 }
 
@@ -67,7 +67,7 @@ extension Parsable {
 
 extension APIManager {
     
-    func getResource<Resource: Parsable>(_ path: String, queryItems: [URLQueryItem] = [], queue: DispatchQueue, completion: @escaping (_ result: Result<Resource>) -> Void) {
+    func getResource<Resource: Parsable>(_ path: String, queryItems: [URLQueryItem] = [], completion: @escaping (_ result: Result<Resource>) -> Void) {
         
         guard let url = self.configuration.makeURL(from: path, queryItems: queryItems) else {
             completion(.failure(APIError.invalidURL))
@@ -77,21 +77,18 @@ extension APIManager {
         let request = self.configuration.makeRequest(for: url)
         self.configuration.session.dataTask(with: request) { (data, response, error) in
             
-            queue.async {
+            guard let data = data, error == nil else {
+                completion(.failure(error ?? APIError.unknownError))
+                return
+            }
+            
+            do {
                 
-                guard let data = data, error == nil else {
-                    completion(.failure(error ?? APIError.unknownError))
-                    return
-                }
+                let result = try Resource.parse(from: data)
+                completion(.success(value: result))
                 
-                do {
-                    
-                    let result = try Resource.parse(from: data)
-                    completion(.success(value: result))
-                    
-                } catch let error {
-                    completion(.failure(error))
-                }
+            } catch let error {
+                completion(.failure(error))
             }
             }.resume()
     }
