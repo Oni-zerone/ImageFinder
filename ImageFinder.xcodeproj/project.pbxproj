@@ -30,6 +30,7 @@
 		97EFA20321B1D5010083EE84 /* UnsplashSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA20221B1D5010083EE84 /* UnsplashSectionViewModel.swift */; };
 		97EFA20521B1D5A90083EE84 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA20421B1D5A90083EE84 /* ImageViewModel.swift */; };
 		97EFA20721B1D8B80083EE84 /* Downloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA20621B1D8B80083EE84 /* Downloadable.swift */; };
+		97EFA20921B1DAA30083EE84 /* Image+Downloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA20821B1DAA30083EE84 /* Image+Downloadable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		97EFA20221B1D5010083EE84 /* UnsplashSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashSectionViewModel.swift; sourceTree = "<group>"; };
 		97EFA20421B1D5A90083EE84 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		97EFA20621B1D8B80083EE84 /* Downloadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloadable.swift; sourceTree = "<group>"; };
+		97EFA20821B1DAA30083EE84 /* Image+Downloadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Downloadable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				97EFA1DE21B07A090083EE84 /* Image.swift */,
+				97EFA20821B1DAA30083EE84 /* Image+Downloadable.swift */,
 				97EFA1E421B0824F0083EE84 /* SearchResult.swift */,
 				97EFA1E621B0830B0083EE84 /* User.swift */,
 			);
@@ -392,6 +395,7 @@
 				97EFA1DF21B07A090083EE84 /* Image.swift in Sources */,
 				97EFA20721B1D8B80083EE84 /* Downloadable.swift in Sources */,
 				97EFA1F821B1C5D20083EE84 /* CollectionModel.swift in Sources */,
+				97EFA20921B1DAA30083EE84 /* Image+Downloadable.swift in Sources */,
 				97EFA1ED21B1AD670083EE84 /* ExpandableSearchBar.swift in Sources */,
 				97EFA1F021B1BAF20083EE84 /* UIColor.swift in Sources */,
 				97EFA1AC21B073110083EE84 /* ViewController.swift in Sources */,

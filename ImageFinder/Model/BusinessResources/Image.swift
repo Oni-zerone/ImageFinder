@@ -41,8 +41,4 @@ extension Image {
     var ratio: Float {
         return Float(self.height) / Float(self.width)
     }
-    
-    var downloadURL: URL? {
-        return URL(string: self.links.download)
-    }
 }

@@ -31,5 +31,14 @@ struct ImageViewModel: ItemViewModel {
         
         cell.descriptionLabel.text = self.image.description
         cell.creationDateLabel.text = self.image.createdAt
+        
+        self.image.loadImage { [weak collection] image in
+            
+            guard let collection = collection,
+                let cell = collection.cellForItem(at: indexPath) as? UnsplashCell else {
+                    return
+            }
+            cell.imageView.image = image
+        }
     }
 }
