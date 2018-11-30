@@ -34,12 +34,42 @@ class APIManager {
 
 extension APIManager {
     
-    func getImages(for query: String, page: Int = 1, completion: @escaping (_ result: Result<SearchResult>) -> Void) {
+    func getImages(for query: String, page: Int = 1, queue: DispatchQueue = .main, completion: @escaping (_ result: Result<SearchResult>) -> Void) {
         
+        let path = "/search/photos"
         let search = URLQueryItem(name: "query", value: query)
         let page = URLQueryItem(name: "page", value: String(page))
         
-        guard let url = self.configuration.makeURL(from: "/search/photos", queryItems: [search, page]) else {
+        self.getResource(path, queryItems: [search, page], queue: queue, completion: completion)
+    }
+    
+    func getImage(_ id: String, queue: DispatchQueue = .main, completion: @escaping (_ result: Result<FullImage>) -> Void) {
+        
+        let path = "/photos/" + id
+        self.getResource(path, queue: queue, completion: completion)
+    }
+}
+
+protocol Parsable: Codable {
+    
+    static func parse(from data: Data) throws -> Self
+}
+
+extension Parsable {
+    
+    static func parse(from data: Data) throws -> Self {
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return try decoder.decode(Self.self, from: data)
+    }
+}
+
+extension APIManager {
+    
+    func getResource<Resource: Parsable>(_ path: String, queryItems: [URLQueryItem] = [], queue: DispatchQueue, completion: @escaping (_ result: Result<Resource>) -> Void) {
+        
+        guard let url = self.configuration.makeURL(from: path, queryItems: queryItems) else {
             completion(.failure(APIError.invalidURL))
             return
         }
@@ -47,7 +77,7 @@ extension APIManager {
         let request = self.configuration.makeRequest(for: url)
         self.configuration.session.dataTask(with: request) { (data, response, error) in
             
-            DispatchQueue.main.async {
+            queue.async {
                 
                 guard let data = data, error == nil else {
                     completion(.failure(error ?? APIError.unknownError))
@@ -56,9 +86,9 @@ extension APIManager {
                 
                 do {
                     
-                    let result = try SearchResult.parse(from: data)
+                    let result = try Resource.parse(from: data)
                     completion(.success(value: result))
-
+                    
                 } catch let error {
                     completion(.failure(error))
                 }
