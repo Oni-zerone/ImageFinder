@@ -19,6 +19,8 @@
 		97EFA1E521B0824F0083EE84 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA1E421B0824F0083EE84 /* SearchResult.swift */; };
 		97EFA1E721B0830B0083EE84 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA1E621B0830B0083EE84 /* User.swift */; };
 		97EFA1EB21B11E9D0083EE84 /* SearchResultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA1EA21B11E9D0083EE84 /* SearchResultsTests.swift */; };
+		97EFA1ED21B1AD670083EE84 /* ExpandableSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA1EC21B1AD670083EE84 /* ExpandableSearchBar.swift */; };
+		97EFA1F021B1BAF20083EE84 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EFA1EF21B1BAF20083EE84 /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		97EFA1E421B0824F0083EE84 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		97EFA1E621B0830B0083EE84 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		97EFA1EA21B11E9D0083EE84 /* SearchResultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTests.swift; sourceTree = "<group>"; };
+		97EFA1EC21B1AD670083EE84 /* ExpandableSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableSearchBar.swift; sourceTree = "<group>"; };
+		97EFA1EF21B1BAF20083EE84 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,7 @@
 		97EFA1A821B073110083EE84 /* ImageFinder */ = {
 			isa = PBXGroup;
 			children = (
+				97EFA1EE21B1BAE30083EE84 /* Utils */,
 				97EFA1D721B074F70083EE84 /* Model */,
 				97EFA1D921B075040083EE84 /* ViewController */,
 				97EFA1D821B074FE0083EE84 /* View */,
@@ -150,6 +155,7 @@
 		97EFA1D821B074FE0083EE84 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				97EFA1EC21B1AD670083EE84 /* ExpandableSearchBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -178,6 +184,14 @@
 				97EFA1E621B0830B0083EE84 /* User.swift */,
 			);
 			path = BusinessResources;
+			sourceTree = "<group>";
+		};
+		97EFA1EE21B1BAE30083EE84 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				97EFA1EF21B1BAF20083EE84 /* UIColor.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +328,8 @@
 				97EFA1DC21B0758A0083EE84 /* RequestManager.swift in Sources */,
 				97EFA1E321B07D7D0083EE84 /* Configuration.swift in Sources */,
 				97EFA1DF21B07A090083EE84 /* Image.swift in Sources */,
+				97EFA1ED21B1AD670083EE84 /* ExpandableSearchBar.swift in Sources */,
+				97EFA1F021B1BAF20083EE84 /* UIColor.swift in Sources */,
 				97EFA1AC21B073110083EE84 /* ViewController.swift in Sources */,
 				97EFA1E521B0824F0083EE84 /* SearchResult.swift in Sources */,
 				97EFA1AA21B073110083EE84 /* AppDelegate.swift in Sources */,

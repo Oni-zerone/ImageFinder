@@ -10,8 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var searchBar: ExpandableSearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.searchBar.delegate = self
         
         APIManager.standard.getImages(for: "balloon") { response in
             
@@ -28,3 +31,13 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: ExpandableSearchBarDelegate {
+    
+    func searchBarDidBeginEditing(_ searchBar: ExpandableSearchBar) {
+        
+    }
+    
+    func searchBar(_ searchBar: ExpandableSearchBar, didEndEditingWith string: String?) {
+        
+    }
+}
