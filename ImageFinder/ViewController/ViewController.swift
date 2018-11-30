@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.searchBar.delegate = self
         self.searchBar.alpha = 0.0
         
@@ -33,6 +34,7 @@ class ViewController: UIViewController {
     }
     
     private func showSearchBar() {
+        
         UIView.animate(withDuration: 0.3) {
             self.searchBar.alpha = 1.0
             self.searchBar.becomeFirstResponder()
