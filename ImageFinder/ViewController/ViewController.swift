@@ -33,7 +33,6 @@ class ViewController: UIViewController {
 
         }
     }
-    
 }
 
 extension ViewController: ExpandableSearchBarDelegate {
