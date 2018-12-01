@@ -14,10 +14,9 @@ class GradientView: UIView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        let locations: [CGFloat] = [0.0, 0.7, 1.0]
-        let colors = [UIColor.deepNight,
-                      UIColor.deepNight.withAlphaComponent(0.7),
-                      UIColor.deepNight.withAlphaComponent(0.0)]
+        let locations: [CGFloat] = [0.0, 1.0]
+        let colors = [UIColor.deepNight.cgColor,
+                      UIColor.deepNight.withAlphaComponent(0.0).cgColor]
         
         let colorSpaceReference = CGColorSpaceCreateDeviceRGB()
         guard let context = UIGraphicsGetCurrentContext(),
