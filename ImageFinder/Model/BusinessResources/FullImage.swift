@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct FullImage: Parsable {
+struct FullImage: Parsable, Hashable {
     
     let id: String
     
     let urls: URLS
     
-    struct URLS: Codable {
+    struct URLS: Codable, Hashable {
         
         var full: String
         

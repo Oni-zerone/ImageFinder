@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Image: Codable {
+struct Image: Codable, Hashable {
     
     var id: String
     
@@ -24,7 +24,7 @@ struct Image: Codable {
         
     var links: Link
     
-    struct Link: Codable {
+    struct Link: Codable, Hashable {
         
         var download: String
         

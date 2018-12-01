@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var dataSource: CollectionDataSource!
+    var pipeline: Pipeline!
+    var loader: ImageLoadStep?
     
     @IBOutlet weak var searchBar: ExpandableSearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -22,7 +23,7 @@ class ViewController: UIViewController {
         self.searchBar.alpha = 0.0
         
         self.registerCells()
-        self.dataSource = CollectionDataSource(collection: self.collectionView)
+        self.setupPipeline()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,22 +63,10 @@ extension ViewController: ExpandableSearchBarDelegate {
         }
         
         guard let string = string else {
-            self.dataSource.model = []
+            self.loader?.reset()
             return
         }
-        
-        APIManager.standard.getImages(for: string) { (result) in
-            
-            switch result {
-            case .failure:
-                self.dataSource.model = []
-                
-            case .success(value: let searchResult):
-                
-                let section = UnsplashSectionViewModel.prepare(searchResult)
-                self.dataSource.model = [section]
-            }
-        }
+        self.loader?.queryString = string
     }
 }
 
@@ -90,5 +79,20 @@ extension ViewController {
         let identifier = UnsplashCell.nibIdentifier
         let nib = UINib(nibName: identifier, bundle: .main)
         self.collectionView.register(nib, forCellWithReuseIdentifier: identifier)
+    }
+    
+    func setupPipeline() {
+        
+        self.pipeline = Pipeline()
+        
+        let loader = ImageLoadStep()
+        self.pipeline.append(loader)
+        self.loader = loader
+        
+        self.pipeline.append(FullImageLoaderStep())
+        
+        let dataSource = CollectionDataSource(collection: self.collectionView)
+        let sourceStep = DataSourceStep(dataSource: dataSource)
+        self.pipeline.append(sourceStep)
     }
 }
