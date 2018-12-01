@@ -41,5 +41,9 @@ extension APIManager {
         static let production = Configuration(baseURL: URLComponents(string: "https://api.unsplash.com/")!,
                                               session: URLSession(configuration: .default),
                                               accessKey: "8d67aff4fa2d17d5cc26bd254bdff216d108d21a46a40055bcab8d79e1e6e3dd")
+        
+        static let mock = Configuration(baseURL: URLComponents(string: "https://api.unsplash.com/")!,
+                                        session: MockSession(),
+                                        accessKey: "8d67aff4fa2d17d5cc26bd254bdff216d108d21a46a40055bcab8d79e1e6e3dd")
     }
 }
