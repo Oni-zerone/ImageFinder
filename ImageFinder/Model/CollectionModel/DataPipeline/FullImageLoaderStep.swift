@@ -21,6 +21,11 @@ class FullImageLoaderStep: DataStep {
         let queue = DispatchGroup()
         (0 ..< section.items.count).forEach { index in
             
+            guard let item = section.unsplashItems.item(at: index),
+                item.fullImage == nil else {
+                    return
+            }
+            
             queue.enter()
             let viewModel = section.unsplashItems[index]
             self.provider.getImage(viewModel.image.id, completion: { (result) in
@@ -28,7 +33,7 @@ class FullImageLoaderStep: DataStep {
                 switch result {
                     
                 case .success(let fullImage):
-                    section.unsplashItems[index].fullImage = fullImage
+                    section.setFullImage(fullImage, itemAt: index)
                     queue.leave()
                     
                 default:

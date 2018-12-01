@@ -12,15 +12,37 @@ class ImageLoadStep: DataStep {
     
     var provider: APIManager = .standard
     
+    private var isLoading = false
+    
+    private(set) var currentPage: Int = 1
+    private(set) var totalPages: Int = 1
+    private(set) var content = UnsplashSectionViewModel(unsplashItems: [])
+    
     var queryString: String? {
         didSet {
             guard self.queryString != oldValue else { return }
-            self.loadImages()
+            self.resetContent()
         }
     }
     
-    func loadImages(at page: Int = 1) {
+    func resetContent() {
         
+        self.content.unsplashItems = []
+        self.currentPage = 1
+        self.totalPages = 1
+        self.loadImages()
+    }
+    
+    func loadImages() {
+        
+        guard self.isLoading == false,
+            self.currentPage <= self.totalPages else {
+                return
+        }
+        
+        self.isLoading = true
+        
+        let page = self.currentPage
         guard let query = self.queryString else {
             self.sendContent(.reset)
             return
@@ -31,14 +53,23 @@ class ImageLoadStep: DataStep {
             switch result {
                 
             case .failure(let error):
-                self.failed(with: error)
+                if page == 1 {
+                    self.failed(with: error)
+                    self.isLoading = false
+                    return
+                }
+                
                 
             case .success(let searchResults):
                 
+                self.totalPages = searchResults.totalPages
                 let viewModels = searchResults.results.viewModels
-                let section = UnsplashSectionViewModel(unsplashItems: viewModels)
-                self.sendContent(.value([section]))
+                self.content.unsplashItems.append(contentsOf: viewModels)
+                self.sendContent(.value([self.content]))
             }
+            
+            self.currentPage += 1
+            self.isLoading = false
         }
     }
 }

@@ -11,6 +11,7 @@ import UIKit
 class UICollectionViewStaggeredFlowLayout: UICollectionViewFlowLayout {
 
     private var layoutAttributes: [IndexPath: UICollectionViewLayoutAttributes] = [:]
+    private var contentSize: CGSize = .zero
     
     override func prepare() {
         super.prepare()
@@ -25,6 +26,8 @@ class UICollectionViewStaggeredFlowLayout: UICollectionViewFlowLayout {
             sectionAttributes.attributes.forEach({ layoutAttributes[$0] = $1 })
         }
         self.layoutAttributes = layoutAttributes
+        let width = self.collectionView?.bounds.width ?? 0
+        self.contentSize = CGSize(width: width, height: sectionPosition.y)
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -41,6 +44,10 @@ class UICollectionViewStaggeredFlowLayout: UICollectionViewFlowLayout {
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return self.layoutAttributes[indexPath]
+    }
+    
+    override var collectionViewContentSize: CGSize {
+        return self.contentSize
     }
 }
 

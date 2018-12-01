@@ -108,3 +108,10 @@ extension CollectionDataSource: UICollectionViewDelegateFlowLayout {
         return item.sizeofCell(in: collectionView, with: module)
     }
 }
+
+extension CollectionDataSource: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.scrollViewDelegate?.scrollViewDidScroll?(scrollView)
+    }
+}

@@ -48,4 +48,11 @@ extension UnsplashSectionViewModel {
         
         return UnsplashSectionViewModel(unsplashItems: searchResult.results.viewModels)
     }
+    
+    mutating func setFullImage(_ fullImage: FullImage, itemAt index: Int) {
+        
+        if self.unsplashItems.indices.contains(index) {
+            self.unsplashItems[index].fullImage = fullImage
+        }
+    }
 }
