@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import UIColor_Hex
+import Kingfisher
 
 struct ImageViewModel: ItemViewModel, Hashable {
     
@@ -16,8 +18,6 @@ struct ImageViewModel: ItemViewModel, Hashable {
     
     var image: Image
     var fullImage: FullImage?
-    
-    var loadedImage: UIImage?
     
     var multiplier: CGFloat {
         
@@ -37,30 +37,31 @@ struct ImageViewModel: ItemViewModel, Hashable {
         
         cell.descriptionLabel.text = self.image.description
         cell.creationDateLabel.text = self.image.createdAt
+        cell.imageView.backgroundColor = UIColor(css: self.image.color)
         
-        if let loadedImage = self.loadedImage {
-            cell.imageView.image = loadedImage
-            return
-        }
         
-        self.loadImage { [weak collection] image in
+        guard let resource = ImageLoader(path: self.fullImage?.urls.thumb) else { return }
+        cell.imageView.kf.setImage(with: resource) { (image, error, cacheType, url) in
             
-            guard let collection = collection,
-                let cell = collection.cellForItem(at: indexPath) as? UnsplashCell else {
-                    return
-            }
+            guard let cell = collection.cellForItem(at: indexPath) as? UnsplashCell else { return }
             cell.imageView.image = image
-            self.loadedImage = image
         }
     }
 }
 
-extension ImageViewModel: Downloadable {
+struct ImageLoader: Resource {
     
-    static var session: URLSession = URLSession(configuration: .default)
-    
-    var url: URL? {
-        guard let imagePath = self.fullImage?.urls.thumb else { return nil }
-        return URL(string: imagePath)
+    init?(path: String?) {
+        
+        guard let path = path,
+            let url = URL(string: path) else {
+                return nil
+        }
+        self.cacheKey = path
+        self.downloadURL = url
     }
+    
+    var cacheKey: String
+    
+    var downloadURL: URL
 }
