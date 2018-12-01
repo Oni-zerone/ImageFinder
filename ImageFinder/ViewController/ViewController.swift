@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     var pipeline: Pipeline!
     var loader: ImageLoadStep?
     
+    private var alreadyScrolled = false
+    
     @IBOutlet weak var searchBar: ExpandableSearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -92,7 +94,27 @@ extension ViewController {
         self.pipeline.append(FullImageLoaderStep())
         
         let dataSource = CollectionDataSource(collection: self.collectionView)
+        dataSource.scrollViewDelegate = self
         let sourceStep = DataSourceStep(dataSource: dataSource)
         self.pipeline.append(sourceStep)
     }
 }
+
+// MARK: - ScrollViewDelegate
+
+extension ViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        guard !alreadyScrolled,
+            scrollView.contentOffset.y > self.view.bounds.height / 2,
+            scrollView.contentSize.height - scrollView.contentOffset.y - (self.view.bounds.height * 0.9)  < 0 else {
+                alreadyScrolled = false
+                return
+        }
+        
+        self.alreadyScrolled = true
+        self.loader?.loadImages()
+    }
+}
+

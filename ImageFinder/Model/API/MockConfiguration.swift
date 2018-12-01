@@ -22,6 +22,8 @@ class MockSession: URLSession {
 
 class DummyDataTask: URLSessionDataTask {
     
+    static let queue = DispatchQueue(label: "background.mock", qos: .background)
+    
     var searchData: Data {
         return DummyDataTask.photoSearchMock.data(using: .utf8)!
     }
@@ -44,7 +46,7 @@ class DummyDataTask: URLSessionDataTask {
     
     override func resume() {
         
-        DispatchQueue(label: "background.mock", qos: .background).asyncAfter(deadline: .now() + 0.2) {
+        DummyDataTask.queue.asyncAfter(deadline: .now() + 0.2) {
             
             if self.request.url?.absoluteString.contains("https://api.unsplash.com/search/photos") ?? false {
                 let searchData = self.searchData
