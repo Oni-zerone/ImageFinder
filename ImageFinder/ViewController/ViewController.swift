@@ -108,7 +108,7 @@ extension ViewController: UIScrollViewDelegate {
         
         guard !alreadyScrolled,
             scrollView.contentOffset.y > self.view.bounds.height / 2,
-            scrollView.contentSize.height - scrollView.contentOffset.y - (self.view.bounds.height * 0.9)  < 0 else {
+            scrollView.contentSize.height - (scrollView.contentOffset.y + self.view.bounds.height * 1.2)  < 0 else {
                 alreadyScrolled = false
                 return
         }
