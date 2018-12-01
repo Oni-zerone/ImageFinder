@@ -69,8 +69,8 @@ fileprivate extension UICollectionViewStaggeredFlowLayout {
             let itemAttributes = self.prepareAttributes(forItemAt: indexPath, anchor: anchors[column])
             attributes[indexPath] = itemAttributes
             
-            anchors[column] = CGPoint(x: itemAttributes.bounds.minX,
-                                      y: itemAttributes.bounds.maxY + interlineSpace)
+            anchors[column] = CGPoint(x: itemAttributes.frame.minX,
+                                      y: itemAttributes.frame.maxY + interlineSpace)
         }
         
         var maxY: CGFloat = 0
@@ -90,7 +90,8 @@ fileprivate extension UICollectionViewStaggeredFlowLayout {
         
         let insets = self.insets(in: section)
         let interItemSpacing = self.interItemSpacing(in: section)
-        let maxWidth = collection.bounds.width - insets.right
+        let interLineSpacing = self.interLineSpacing(in: section)
+        let maxX = collection.bounds.width - insets.right
         var origin = CGPoint(x: startPoint.x + insets.left, y: startPoint.y + insets.top)
         
         var anchors: [CGPoint] = []
@@ -101,15 +102,15 @@ fileprivate extension UICollectionViewStaggeredFlowLayout {
             let indexPath = IndexPath(item: index, section: section)
             let itemSize = self.sizeofItem(at: indexPath)
             let itemMaxX = itemSize.width + origin.x
-            guard itemMaxX <= maxWidth else {
+            guard itemMaxX <= maxX else {
                 return true
             }
             
-            anchors.append(origin)
+            anchors.append(CGPoint(x: origin.x, y: origin.y + itemSize.height + interLineSpacing))
             let itemAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             itemAttributes.frame = CGRect(origin: origin, size: itemSize)
             attributes[indexPath] = itemAttributes
-            origin = CGPoint(x: origin.x + itemMaxX + interItemSpacing, y: origin.y)
+            origin = CGPoint(x: itemMaxX + interItemSpacing, y: origin.y)
             return false
         })
         
