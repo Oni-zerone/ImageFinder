@@ -24,6 +24,7 @@ class UICollectionViewStaggeredFlowLayout: UICollectionViewFlowLayout {
             sectionPosition = sectionAttributes.endPoint
             sectionAttributes.attributes.forEach({ layoutAttributes[$0] = $1 })
         }
+        self.layoutAttributes = layoutAttributes
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -76,7 +77,7 @@ fileprivate extension UICollectionViewStaggeredFlowLayout {
         anchors.forEach { anchor in
             maxY = max(maxY, anchor.y)
         }
-        return (endPoint: CGPoint(x: startPoint.x, y: maxY), attributes: attributes)
+        return (endPoint: CGPoint(x: startPoint.x, y: maxY + self.insets(in: section).bottom), attributes: attributes)
     }
     
     private func defineColumns(in section: Int,
@@ -106,7 +107,7 @@ fileprivate extension UICollectionViewStaggeredFlowLayout {
             
             anchors.append(origin)
             let itemAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-            itemAttributes.bounds = CGRect(origin: origin, size: itemSize)
+            itemAttributes.frame = CGRect(origin: origin, size: itemSize)
             attributes[indexPath] = itemAttributes
             origin = CGPoint(x: origin.x + itemMaxX + interItemSpacing, y: origin.y)
             return false
@@ -119,7 +120,7 @@ fileprivate extension UICollectionViewStaggeredFlowLayout {
         
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         let size = self.sizeofItem(at: indexPath)
-        attributes.bounds = CGRect(origin: anchor, size: size)
+        attributes.frame = CGRect(origin: anchor, size: size)
         return attributes
     }
 }
