@@ -15,7 +15,15 @@ class UICollectionViewStaggeredFlowLayout: UICollectionViewFlowLayout {
     override func prepare() {
         super.prepare()
         
+        var layoutAttributes: [IndexPath: UICollectionViewLayoutAttributes] = [:]
+        var sectionPosition = CGPoint.zero
         
+        let sectionCount = self.numberOfSections
+        (0 ..< sectionCount).forEach { (section) in
+            let sectionAttributes = self.prepareAttributes(for: section, startPoint: sectionPosition)
+            sectionPosition = sectionAttributes.endPoint
+            sectionAttributes.attributes.forEach({ layoutAttributes[$0] = $1 })
+        }
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -35,6 +43,89 @@ class UICollectionViewStaggeredFlowLayout: UICollectionViewFlowLayout {
     }
 }
 
+// MARK: - Attributes Calculation
+
+fileprivate extension UICollectionViewStaggeredFlowLayout {
+    
+    func prepareAttributes(for section: Int, startPoint: CGPoint) -> (endPoint: CGPoint, attributes: [IndexPath: UICollectionViewLayoutAttributes]) {
+
+        let itemsCount = self.numberOfItems(in: section)
+        guard itemsCount > 0 else {
+            return (endPoint: startPoint, attributes: [:])
+        }
+        
+        let columns = defineColumns(in: section, from: startPoint, totalItems: itemsCount)
+        var anchors = columns.anchors
+        let columnsCount = anchors.count
+        var attributes = columns.attributes
+
+        let interlineSpace = self.interLineSpacing(in: section)
+        
+        (anchors.count ..< itemsCount).forEach { itemIndex in
+            
+            let column = itemIndex % columnsCount
+            let indexPath = IndexPath(item: itemIndex, section: section)
+            let itemAttributes = self.prepareAttributes(forItemAt: indexPath, anchor: anchors[column])
+            attributes[indexPath] = itemAttributes
+            
+            anchors[column] = CGPoint(x: itemAttributes.bounds.minX,
+                                      y: itemAttributes.bounds.maxY + interlineSpace)
+        }
+        
+        var maxY: CGFloat = 0
+        anchors.forEach { anchor in
+            maxY = max(maxY, anchor.y)
+        }
+        return (endPoint: CGPoint(x: startPoint.x, y: maxY), attributes: attributes)
+    }
+    
+    private func defineColumns(in section: Int,
+                               from startPoint: CGPoint,
+                               totalItems: Int) -> (anchors: [CGPoint], attributes: [IndexPath : UICollectionViewLayoutAttributes]) {
+        
+        guard let collection = self.collectionView else {
+            return (anchors: [], attributes: [:])
+        }
+        
+        let insets = self.insets(in: section)
+        let interItemSpacing = self.interItemSpacing(in: section)
+        let maxWidth = collection.bounds.width - insets.right
+        var origin = CGPoint(x: startPoint.x + insets.left, y: startPoint.y + insets.top)
+        
+        var anchors: [CGPoint] = []
+        var attributes: [IndexPath: UICollectionViewLayoutAttributes] = [:]
+        
+        _ = (0 ..< totalItems).first(where: { (index) -> Bool in
+            
+            let indexPath = IndexPath(item: index, section: section)
+            let itemSize = self.sizeofItem(at: indexPath)
+            let itemMaxX = itemSize.width + origin.x
+            guard itemMaxX <= maxWidth else {
+                return true
+            }
+            
+            anchors.append(origin)
+            let itemAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+            itemAttributes.bounds = CGRect(origin: origin, size: itemSize)
+            attributes[indexPath] = itemAttributes
+            origin = CGPoint(x: origin.x + itemMaxX + interItemSpacing, y: origin.y)
+            return false
+        })
+        
+        return (anchors: anchors, attributes: attributes)
+    }
+    
+    func prepareAttributes(forItemAt indexPath: IndexPath, anchor: CGPoint) -> UICollectionViewLayoutAttributes {
+        
+        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        let size = self.sizeofItem(at: indexPath)
+        attributes.bounds = CGRect(origin: anchor, size: size)
+        return attributes
+    }
+}
+
+// MARK: - DataSource Helper
+
 fileprivate extension UICollectionViewStaggeredFlowLayout {
     
     var dataSource: UICollectionViewDataSource? {
@@ -53,6 +144,8 @@ fileprivate extension UICollectionViewStaggeredFlowLayout {
         return self.dataSource?.collectionView(collection, numberOfItemsInSection: section) ?? 0
     }
 }
+
+// MARK: - Delegate Helper
 
 fileprivate extension UICollectionViewStaggeredFlowLayout {
     
