@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JeS-nh-SuA">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="60" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="VSm-cz-iE8">
@@ -30,8 +30,8 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBf-zI-Ejc">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="104"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBf-zI-Ejc" customClass="GradientView" customModule="ImageFinder" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="375" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DN9-Di-9kG" customClass="ExpandableSearchBar" customModule="ImageFinder" customModuleProvider="target">
@@ -45,8 +45,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.078431372549019607" green="0.039215686274509803" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="DN9-Di-9kG" firstAttribute="top" secondItem="JeS-nh-SuA" secondAttribute="top" id="0gi-jx-Ly9"/>
-                            <constraint firstItem="DN9-Di-9kG" firstAttribute="bottom" secondItem="gBf-zI-Ejc" secondAttribute="bottom" constant="-20" id="1t4-Go-32l"/>
+                            <constraint firstItem="DN9-Di-9kG" firstAttribute="centerY" secondItem="JeS-nh-SuA" secondAttribute="top" id="0gi-jx-Ly9"/>
+                            <constraint firstItem="DN9-Di-9kG" firstAttribute="bottom" secondItem="gBf-zI-Ejc" secondAttribute="bottom" constant="-40" id="1t4-Go-32l"/>
+                            <constraint firstItem="DN9-Di-9kG" firstAttribute="centerY" secondItem="gBf-zI-Ejc" secondAttribute="top" id="6rM-nK-ums"/>
                             <constraint firstItem="gBf-zI-Ejc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="EdP-iG-soc"/>
                             <constraint firstItem="JeS-nh-SuA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JXt-cf-ABX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gBf-zI-Ejc" secondAttribute="trailing" id="R1l-Yc-rNd"/>
@@ -54,7 +55,6 @@
                             <constraint firstItem="DN9-Di-9kG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="a9I-Ju-vsS"/>
                             <constraint firstItem="DN9-Di-9kG" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="24" id="bkp-oe-M5X"/>
                             <constraint firstItem="JeS-nh-SuA" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="eS8-nS-Yxk"/>
-                            <constraint firstItem="gBf-zI-Ejc" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qjh-ZS-yBi"/>
                             <constraint firstItem="DN9-Di-9kG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" priority="750" constant="50" id="rGE-rR-dWB"/>
                             <constraint firstItem="JeS-nh-SuA" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="tN6-ja-ipf"/>
                         </constraints>
