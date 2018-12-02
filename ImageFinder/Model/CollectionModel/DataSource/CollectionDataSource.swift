@@ -15,8 +15,6 @@ protocol InteractionDelegate: class {
 
 class CollectionDataSource: NSObject {
 
-    fileprivate var sectionModules: [Int : SizeModule] = [:]
-    
     weak var interactionDelegate: InteractionDelegate?
     weak var scrollViewDelegate: UIScrollViewDelegate?
     
@@ -24,8 +22,6 @@ class CollectionDataSource: NSObject {
 
     var model: CollectionModel {
         didSet {
-            
-            self.sectionModules = [:]
             self.collectionView?.reloadData()
         }
     }
@@ -94,16 +90,11 @@ extension CollectionDataSource: UICollectionViewDelegateFlowLayout {
             return .zero
         }
         
-        if let module = self.sectionModules[indexPath.section] {
-            return item.sizeofCell(in: collectionView, with: module)
-        }
-        
         let columns = CGFloat(section.columns)
         let internalMargins = section.interItemSpacing * max(0.0, columns - 1.0)
         let externalMargins = section.insets.left + section.insets.right
         let width = (collectionView.frame.width - internalMargins - externalMargins) / columns
         let module = SizeModule(width: floor(width))
-        self.sectionModules[indexPath.section] = module
         
         return item.sizeofCell(in: collectionView, with: module)
     }
