@@ -24,7 +24,7 @@ class ViewerViewController: UIViewController {
 
     var image: ImageViewerContent? {
         didSet {
-            self.loadLowResContent()
+            self.loadContent()
         }
     }
     var highRes = false
@@ -32,10 +32,13 @@ class ViewerViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     
+    @IBOutlet weak var favoritesLabel: UILabel!
+    @IBOutlet weak var downloadsLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.loadLowResContent()
+        self.loadContent()
         
         self.navigationController?.navigationBar.barStyle = .blackTranslucent
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(tapZoom(_:)))
@@ -53,9 +56,13 @@ class ViewerViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    func loadLowResContent() {
+    func loadContent() {
         
         guard self.isViewLoaded else { return }
+        
+        self.favoritesLabel.text = self.image?.likes
+        self.downloadsLabel.text = self.image?.downloads
+        
         guard let resource = ImageLoader(path: self.image?.lowResPath) else { return }
         self.imageView.kf.setImage(with: resource, placeholder: self.imageView.image) { (image, error, cache, url) in
             
