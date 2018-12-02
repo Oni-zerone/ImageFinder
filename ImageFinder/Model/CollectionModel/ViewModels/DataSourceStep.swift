@@ -25,15 +25,10 @@ class DataSourceStep: DataStep {
     }
     
     override func failed(with error: Error) {
-        
         self.reset()
     }
     
     override func reset() {
-        
-        DispatchQueue.main.async {
-            self.dataSource.model = []
-        }
+        self.success(with: [])
     }
-    
 }

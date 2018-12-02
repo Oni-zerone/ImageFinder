@@ -39,7 +39,6 @@ struct ImageViewModel: ItemViewModel, Hashable {
         cell.creationDateLabel.text = self.image.createdAt
         cell.imageView.backgroundColor = UIColor(css: self.image.color)
         
-        
         guard let resource = ImageLoader(path: self.fullImage?.urls.thumb) else { return }
         cell.imageView.kf.setImage(with: resource) { (image, error, cacheType, url) in
             
