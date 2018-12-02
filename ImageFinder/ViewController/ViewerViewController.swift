@@ -9,9 +9,24 @@
 import UIKit
 import Kingfisher
 
-class DetailViewController: UIViewController {
+protocol ViewerContent {
+    
+    var lowResPath: String { get }
+    
+    var highResPath: String { get }
+    
+    var likes: String { get }
+        
+    var userDetail: String { get }
+}
 
-    var image: FullImage?
+class ViewerViewController: UIViewController {
+
+    var image: ImageViewerContent? {
+        didSet {
+            self.loadLowResContent()
+        }
+    }
     var highRes = false
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -20,13 +35,12 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.loadLowResContent()
+        
         self.navigationController?.navigationBar.barStyle = .blackTranslucent
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(tapZoom(_:)))
         doubleTap.numberOfTapsRequired = 2
         self.view.addGestureRecognizer(doubleTap)
-        
-        guard let resource = ImageLoader(path: image?.urls.small) else { return }
-        self.imageView.kf.setImage(with: resource)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,6 +52,34 @@ class DetailViewController: UIViewController {
         super.viewDidAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
+    
+    func loadLowResContent() {
+        
+        guard self.isViewLoaded else { return }
+        guard let resource = ImageLoader(path: self.image?.lowResPath) else { return }
+        self.imageView.kf.setImage(with: resource, placeholder: self.imageView.image) { (image, error, cache, url) in
+            
+            self.imageView.image = image
+            self.highRes = false
+        }
+    }
+    
+    func loadHighResContent() {
+
+        guard !self.highRes,
+            let resource = ImageLoader(path: self.image?.highResPath) else {
+                return
+        }
+        
+        self.highRes = true
+        self.imageView.kf.setImage(with: resource, placeholder: self.imageView.image)
+
+    }
+}
+
+// MARK: - Zoom
+
+extension ViewerViewController {
     
     @objc func tapZoom(_ sender: UITapGestureRecognizer?) {
         if self.scrollView.zoomScale > 2 {
@@ -67,7 +109,9 @@ class DetailViewController: UIViewController {
     }
 }
 
-extension DetailViewController: UIScrollViewDelegate {
+// MARK: - ScrollViewDelegate
+
+extension ViewerViewController: UIScrollViewDelegate {
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
@@ -75,13 +119,9 @@ extension DetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         
-        guard !self.highRes,
-            scale > 2.0 else {
+        guard scale > 2.0 else {
                 return
         }
-        
-        self.highRes = true
-        guard let resource = ImageLoader(path: image?.urls.full) else { return }
-        self.imageView.kf.setImage(with: resource, placeholder: self.imageView.image)
+        self.loadHighResContent()
     }
 }

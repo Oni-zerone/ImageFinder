@@ -24,6 +24,10 @@ struct Image: Codable, Hashable {
         
     var links: Link
     
+    var likes: Int
+    
+    var downloads: Int
+    
     struct Link: Codable, Hashable {
         
         var download: String

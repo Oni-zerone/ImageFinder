@@ -71,10 +71,10 @@
             </objects>
             <point key="canvasLocation" x="996" y="26.53673163418291"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Viewer View Controller-->
         <scene sceneID="tYP-Wv-ymh">
             <objects>
-                <viewController storyboardIdentifier="DetailViewController" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="i60-xX-Vqa" customClass="DetailViewController" customModule="ImageFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="i60-xX-Vqa" customClass="ViewerViewController" customModule="ImageFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="alo-sz-EQO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
