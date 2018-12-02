@@ -36,7 +36,7 @@ struct ImageViewModel: ItemViewModel, Hashable {
         }
         
         cell.descriptionLabel.text = self.image.description
-        cell.creationDateLabel.text = self.image.createdAt
+        cell.creationDateLabel.text =  self.image.creationDate?.simpleFormat ?? "--"
         cell.imageView.backgroundColor = UIColor(css: self.image.color)
         
         guard let resource = ImageLoader(path: self.fullImage?.urls.thumb) else { return }
@@ -64,3 +64,4 @@ struct ImageLoader: Resource {
     
     var downloadURL: URL
 }
+

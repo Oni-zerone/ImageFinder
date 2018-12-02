@@ -11,6 +11,8 @@ import Kingfisher
 
 protocol ViewerContent {
     
+    var imageRatio: CGFloat { get }
+    
     var lowResPath: String { get }
     
     var midResPath: String { get }
@@ -32,6 +34,7 @@ class ViewerViewController: UIViewController {
     var highRes = false
     var midRes = false
     
+    @IBOutlet weak var ratioConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -116,10 +119,10 @@ extension ViewerViewController {
     }
     
     private func zoomIn(_ sender: UITapGestureRecognizer?) {
-        if let location = sender?.location(in: self.imageView) {
+        if let location = sender?.location(in: self.scrollView) {
             
             let scale: CGFloat = 4.0
-            let size = self.imageView.bounds.size
+            let size = self.scrollView.bounds.size
             let zoomedHeight = size.height / scale
             let zoomedWidth = size.width / scale
             

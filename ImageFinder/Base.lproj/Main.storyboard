@@ -93,7 +93,6 @@
                                 <constraints>
                                     <constraint firstItem="mbm-4W-qhO" firstAttribute="height" secondItem="9Wf-Jf-ERO" secondAttribute="height" id="1Ve-I8-PgA"/>
                                     <constraint firstAttribute="bottom" secondItem="mbm-4W-qhO" secondAttribute="bottom" id="5as-l0-sOT"/>
-                                    <constraint firstItem="mbm-4W-qhO" firstAttribute="centerY" secondItem="9Wf-Jf-ERO" secondAttribute="centerY" id="RVg-Xh-yZe"/>
                                     <constraint firstAttribute="trailing" secondItem="mbm-4W-qhO" secondAttribute="trailing" id="c1y-dM-fYX"/>
                                     <constraint firstItem="mbm-4W-qhO" firstAttribute="leading" secondItem="9Wf-Jf-ERO" secondAttribute="leading" id="oHm-hp-xHV"/>
                                     <constraint firstItem="mbm-4W-qhO" firstAttribute="width" secondItem="9Wf-Jf-ERO" secondAttribute="width" id="sea-I0-UX5"/>
@@ -198,13 +197,23 @@
                                         </view>
                                         <blurEffect style="dark"/>
                                     </visualEffectView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b2F-Rk-U31">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="SxO-ce-OSC"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="Ihk-jt-MN7" secondAttribute="bottom" id="FRV-GU-OCt"/>
+                                    <constraint firstItem="b2F-Rk-U31" firstAttribute="leading" secondItem="veJ-YO-DWR" secondAttribute="leading" id="FbS-6m-2Ed"/>
                                     <constraint firstItem="Ihk-jt-MN7" firstAttribute="top" secondItem="veJ-YO-DWR" secondAttribute="top" id="MaZ-Nc-xiS"/>
                                     <constraint firstAttribute="trailing" secondItem="Ihk-jt-MN7" secondAttribute="trailing" id="OA7-en-8yS"/>
+                                    <constraint firstItem="b2F-Rk-U31" firstAttribute="top" secondItem="veJ-YO-DWR" secondAttribute="top" id="UdB-p9-UWh"/>
                                     <constraint firstItem="Ihk-jt-MN7" firstAttribute="leading" secondItem="veJ-YO-DWR" secondAttribute="leading" id="Zo1-9d-il5"/>
+                                    <constraint firstAttribute="trailing" secondItem="b2F-Rk-U31" secondAttribute="trailing" id="dlv-Rr-Orl"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -212,9 +221,9 @@
                         <constraints>
                             <constraint firstItem="9Wf-Jf-ERO" firstAttribute="trailing" secondItem="x6S-Eq-5M9" secondAttribute="trailing" id="7VO-I7-3NR"/>
                             <constraint firstItem="veJ-YO-DWR" firstAttribute="leading" secondItem="x6S-Eq-5M9" secondAttribute="leading" id="BhQ-cn-YCI"/>
+                            <constraint firstItem="9Wf-Jf-ERO" firstAttribute="centerY" secondItem="alo-sz-EQO" secondAttribute="centerY" id="DdG-rL-qw1"/>
                             <constraint firstItem="veJ-YO-DWR" firstAttribute="top" secondItem="9Wf-Jf-ERO" secondAttribute="bottom" id="O9w-Zh-KsH"/>
                             <constraint firstItem="zvV-fs-dob" firstAttribute="centerX" secondItem="alo-sz-EQO" secondAttribute="centerX" id="R2q-zo-Nfi"/>
-                            <constraint firstItem="9Wf-Jf-ERO" firstAttribute="centerY" secondItem="alo-sz-EQO" secondAttribute="centerY" id="Wce-SK-Wq5"/>
                             <constraint firstAttribute="bottom" secondItem="veJ-YO-DWR" secondAttribute="bottom" id="Yye-Hg-fUh"/>
                             <constraint firstItem="9Wf-Jf-ERO" firstAttribute="leading" secondItem="x6S-Eq-5M9" secondAttribute="leading" id="dhH-PH-1mO"/>
                             <constraint firstItem="x6S-Eq-5M9" firstAttribute="trailing" secondItem="veJ-YO-DWR" secondAttribute="trailing" id="gcU-kU-zkw"/>

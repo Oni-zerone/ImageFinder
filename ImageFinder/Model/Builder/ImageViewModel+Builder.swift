@@ -27,9 +27,12 @@ struct ImageViewerContent: ViewerContent {
     
     var fullImage: FullImage?
     
+    var imageRatio: CGFloat {
+        return CGFloat(self.image.height) / CGFloat(self.image.width)
+    }
+    
     var lowResPath: String {
-     
-        return self.fullImage?.urls.thumb ?? image.links.download
+        return self.fullImage?.urls.small ?? image.links.download
     }
     
     var midResPath: String {
@@ -37,7 +40,6 @@ struct ImageViewerContent: ViewerContent {
     }
     
     var highResPath: String {
-        
         return self.fullImage?.urls.full ?? self.image.links.download
     }
 

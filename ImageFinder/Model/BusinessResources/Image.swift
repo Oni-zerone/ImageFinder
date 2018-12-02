@@ -39,4 +39,9 @@ extension Image {
     var ratio: Float {
         return Float(self.height) / Float(self.width)
     }
+    
+    var creationDate: Date? {
+        
+        return DateFormatter.RFC3339.date(from: self.createdAt)
+    }
 }
