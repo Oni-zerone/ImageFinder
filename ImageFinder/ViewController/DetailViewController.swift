@@ -20,6 +20,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.barStyle = .blackTranslucent
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(tapZoom(_:)))
         doubleTap.numberOfTapsRequired = 2
         self.view.addGestureRecognizer(doubleTap)
@@ -28,17 +29,14 @@ class DetailViewController: UIViewController {
         self.imageView.kf.setImage(with: resource)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        self.navigationController?.navigationBar.barStyle = .blackTranslucent
-        self.navigationController?.isNavigationBarHidden = false
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        self.navigationController?.isNavigationBarHidden = true
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     @objc func tapZoom(_ sender: UITapGestureRecognizer?) {
@@ -50,7 +48,18 @@ class DetailViewController: UIViewController {
     }
     
     private func zoomIn(_ sender: UITapGestureRecognizer?) {
-        self.scrollView.setZoomScale(4, animated: true)
+        if let location = sender?.location(in: self.imageView) {
+            
+            let scale: CGFloat = 4.0
+            let size = self.imageView.bounds.size
+            let zoomedHeight = size.height / scale
+            let zoomedWidth = size.width / scale
+            
+            let originY = location.y - zoomedHeight / 2
+            let originX = location.x - zoomedHeight / 2
+            let rect = CGRect(x: originX, y: originY, width: zoomedWidth, height: zoomedHeight)
+            self.scrollView.zoom(to: rect, animated: true)
+        }
     }
     
     private func zoomOut(_ sender: UITapGestureRecognizer?) {
