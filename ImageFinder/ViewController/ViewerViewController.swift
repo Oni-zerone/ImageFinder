@@ -13,6 +13,8 @@ protocol ViewerContent {
     
     var lowResPath: String { get }
     
+    var midResPath: String { get }
+    
     var highResPath: String { get }
     
     var likes: String { get }
@@ -28,6 +30,9 @@ class ViewerViewController: UIViewController {
         }
     }
     var highRes = false
+    var midRes = false
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
@@ -60,6 +65,7 @@ class ViewerViewController: UIViewController {
         
         guard self.isViewLoaded else { return }
         
+        self.activityIndicator.startAnimating()
         self.favoritesLabel.text = self.image?.likes
         self.downloadsLabel.text = self.image?.downloads
         
@@ -67,8 +73,21 @@ class ViewerViewController: UIViewController {
         self.imageView.kf.setImage(with: resource, placeholder: self.imageView.image) { (image, error, cache, url) in
             
             self.imageView.image = image
+            self.midRes = false
             self.highRes = false
+            self.activityIndicator.stopAnimating()
         }
+    }
+    
+    func loadMidResContent() {
+        
+        guard !self.midRes, !self.highRes,
+            let resource = ImageLoader(path: self.image?.midResPath) else {
+                return
+        }
+
+        self.midRes = true
+        self.imageView.kf.setImage(with: resource, placeholder: self.imageView.image)
     }
     
     func loadHighResContent() {
@@ -126,9 +145,17 @@ extension ViewerViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         
-        guard scale > 2.0 else {
-                return
+        if !self.highRes,
+            scale > 2.5 {
+            self.loadHighResContent()
+            return
         }
-        self.loadHighResContent()
+
+        if !self.midRes,
+            !self.highRes,
+            scale > 1.5 {
+            self.loadMidResContent()
+            return
+        }
     }
 }

@@ -20,6 +20,8 @@ struct FullImage: Parsable, Hashable {
         
         var full: String
         
+        var regular: String
+        
         var small: String
         
         var thumb: String

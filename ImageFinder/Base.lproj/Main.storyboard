@@ -79,7 +79,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" maximumZoomScale="4" translatesAutoresizingMaskIntoConstraints="NO" id="9Wf-Jf-ERO">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-fs-dob">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                                <color key="color" red="0.2342452109" green="0.70681428909999999" blue="0.43405306339999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="9Wf-Jf-ERO">
                                 <rect key="frame" x="0.0" y="78" width="414" height="740"/>
                                 <subviews>
                                     <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mbm-4W-qhO">
@@ -209,16 +213,19 @@
                             <constraint firstItem="9Wf-Jf-ERO" firstAttribute="trailing" secondItem="x6S-Eq-5M9" secondAttribute="trailing" id="7VO-I7-3NR"/>
                             <constraint firstItem="veJ-YO-DWR" firstAttribute="leading" secondItem="x6S-Eq-5M9" secondAttribute="leading" id="BhQ-cn-YCI"/>
                             <constraint firstItem="veJ-YO-DWR" firstAttribute="top" secondItem="9Wf-Jf-ERO" secondAttribute="bottom" id="O9w-Zh-KsH"/>
+                            <constraint firstItem="zvV-fs-dob" firstAttribute="centerX" secondItem="alo-sz-EQO" secondAttribute="centerX" id="R2q-zo-Nfi"/>
                             <constraint firstItem="9Wf-Jf-ERO" firstAttribute="centerY" secondItem="alo-sz-EQO" secondAttribute="centerY" id="Wce-SK-Wq5"/>
                             <constraint firstAttribute="bottom" secondItem="veJ-YO-DWR" secondAttribute="bottom" id="Yye-Hg-fUh"/>
                             <constraint firstItem="9Wf-Jf-ERO" firstAttribute="leading" secondItem="x6S-Eq-5M9" secondAttribute="leading" id="dhH-PH-1mO"/>
                             <constraint firstItem="x6S-Eq-5M9" firstAttribute="trailing" secondItem="veJ-YO-DWR" secondAttribute="trailing" id="gcU-kU-zkw"/>
                             <constraint firstItem="veJ-YO-DWR" firstAttribute="top" secondItem="x6S-Eq-5M9" secondAttribute="bottom" constant="-44" id="kMt-82-GgX"/>
+                            <constraint firstItem="zvV-fs-dob" firstAttribute="centerY" secondItem="alo-sz-EQO" secondAttribute="centerY" id="ssv-dc-pOa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="x6S-Eq-5M9"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="zvV-fs-dob" id="cVf-eH-m5a"/>
                         <outlet property="downloadsLabel" destination="lC1-aQ-JNx" id="KS6-qd-2eG"/>
                         <outlet property="favoritesLabel" destination="KeU-xE-KZc" id="9M7-R3-Trd"/>
                         <outlet property="imageView" destination="mbm-4W-qhO" id="bvx-az-kPO"/>

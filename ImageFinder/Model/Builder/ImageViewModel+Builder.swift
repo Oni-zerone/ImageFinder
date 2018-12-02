@@ -32,9 +32,13 @@ struct ImageViewerContent: ViewerContent {
         return self.fullImage?.urls.thumb ?? image.links.download
     }
     
+    var midResPath: String {
+        return self.fullImage?.urls.regular ?? image.links.download
+    }
+    
     var highResPath: String {
         
-        return self.image.links.download
+        return self.fullImage?.urls.full ?? self.image.links.download
     }
 
     var likes: String {
