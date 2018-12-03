@@ -13,6 +13,7 @@ class FullImageLoaderStep: DataStep {
     var provider: APIManager = .standard
     
     override func success(with model: CollectionModel) {
+        var model = model
         guard var section = model.first as? UnsplashSectionViewModel else {
             super.success(with: model)
             return
@@ -41,7 +42,8 @@ class FullImageLoaderStep: DataStep {
                 }
             })
             queue.notify(queue: DispatchQueue(label: "ImageNotify"), execute: {
-                self.sendContent(.value([section]))
+                model[0] = section
+                self.sendContent(.value(model))
             })
         }
         

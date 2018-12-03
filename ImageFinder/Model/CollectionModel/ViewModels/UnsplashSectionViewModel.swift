@@ -28,7 +28,7 @@ struct UnsplashSectionViewModel: SectionViewModel {
     
     var insets: UIEdgeInsets {
         
-        return UIEdgeInsets(top: 70, left: 8.0, bottom: 70, right: 8.0)
+        return UIEdgeInsets(top: 70, left: 8.0, bottom: 0, right: 8.0)
     }
     
     var interItemSpacing: CGFloat {

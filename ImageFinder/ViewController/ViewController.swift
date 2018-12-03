@@ -78,9 +78,13 @@ extension ViewController {
     
     func registerCells() {
         
-        let identifier = UnsplashCell.nibIdentifier
-        let nib = UINib(nibName: identifier, bundle: .main)
-        self.collectionView.register(nib, forCellWithReuseIdentifier: identifier)
+        let imageIdentifier = UnsplashCell.nibIdentifier
+        let imageNib = UINib(nibName: imageIdentifier, bundle: .main)
+        self.collectionView.register(imageNib, forCellWithReuseIdentifier: imageIdentifier)
+        
+        let messageIdentifier = MessageCollectionViewCell.nibIdentifier
+        let messageNib = UINib(nibName: messageIdentifier, bundle: .main)
+        self.collectionView.register(messageNib, forCellWithReuseIdentifier: messageIdentifier)
     }
     
     func setupPipeline() {
@@ -92,6 +96,7 @@ extension ViewController {
         self.loader = loader
         
         self.pipeline.append(FullImageLoaderStep())
+        self.pipeline.append(FailureMessageDataStep())
         
         let dataSource = CollectionDataSource(collection: self.collectionView)
         dataSource.scrollViewDelegate = self

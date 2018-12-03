@@ -58,19 +58,34 @@ class ImageLoadStep: DataStep {
                     self.isLoading = false
                     return
                 }
-                
+                let messageSection = self.prepareMessageSection(message: error.localizedDescription)
+                self.sendContent(.value([self.content, messageSection]))
+                return
                 
             case .success(let searchResults):
                 
                 self.totalPages = searchResults.totalPages
                 let viewModels = searchResults.results.viewModels
                 self.content.unsplashItems.append(contentsOf: viewModels)
-                self.sendContent(.value([self.content]))
+
+                var content: CollectionModel = [self.content]
+                
+                if page == self.totalPages {
+                    let section = self.prepareMessageSection(message: "End of content.")
+                    content.append(section)
+                }
+                self.sendContent(.value(content))
             }
             
             self.currentPage += 1
             self.isLoading = false
         }
+    }
+    
+    func prepareMessageSection(message: String) -> SectionViewModel {
+
+        let messageViewModel = MessageViewModel(message: message)
+        return MessageSectionViewModel(extendedTopMargin: false, items: [messageViewModel])
     }
 }
 
