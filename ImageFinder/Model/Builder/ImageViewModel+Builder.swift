@@ -10,12 +10,20 @@ import UIKit
 
 extension ImageViewModel: Builder {
     
-    func make(from: UIView?) -> UIViewController? {
+    func make(from view: UIView?) -> UIViewController? {
         
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         guard let detailController = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as? ViewerViewController else {
             return nil
         }
+        
+        if let view = view as? UnsplashCell,
+            let image = view.imageView.image {
+            
+            let frame = view.imageView.convert(view.imageView.bounds, to: nil)
+            detailController.transition = ZoomInAnimatedTransitioning(originFrame: frame, image: image)
+        }
+        
         detailController.image = ImageViewerContent(image: self.image, fullImage: self.fullImage)
         return detailController
     }

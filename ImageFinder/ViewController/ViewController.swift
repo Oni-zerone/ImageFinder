@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     var pipeline: Pipeline!
     var loader: ImageLoadStep?
     
@@ -27,10 +27,15 @@ class ViewController: UIViewController {
         self.registerCells()
         self.setupPipeline()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         if self.searchBar.alpha == 0.0 {
             self.showSearchBar()
         }

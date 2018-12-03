@@ -358,10 +358,10 @@
             </objects>
             <point key="canvasLocation" x="2885.507246376812" y="25.446428571428569"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Transition Navigation Controller-->
         <scene sceneID="fgE-gw-lXn">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Lwy-tc-K8O" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Lwy-tc-K8O" customClass="TransitionNavigationController" customModule="ImageFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="F1F-rE-xgV">

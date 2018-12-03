@@ -46,25 +46,24 @@ class ViewerViewController: UIViewController {
     @IBOutlet weak var downloadsLabel: UILabel!
     @IBOutlet weak var userButton: UIButton!
     
+    var transition: ZoomInAnimatedTransitioning?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.loadContent()
-        
+        self.view.clipsToBounds = true
         self.navigationController?.navigationBar.barStyle = .blackTranslucent
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(tapZoom(_:)))
         doubleTap.numberOfTapsRequired = 2
         self.scrollView.addGestureRecognizer(doubleTap)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.barStyle = .blackTranslucent
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+
+        self.loadContent()
     }
     
     @IBAction func showDetail(_ sender: Any) {
@@ -172,5 +171,23 @@ extension ViewerViewController: UIScrollViewDelegate {
             self.loadMidResContent()
             return
         }
+    }
+}
+
+extension ViewerViewController: UIViewControllerTransitioningDelegate {
+    
+    override var transitioningDelegate: UIViewControllerTransitioningDelegate? {
+        set {  }
+        get {
+            return self
+        }
+    }
+    
+    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        self.loadView()
+        let transition = self.transition
+        transition?.destinationView = self.imageView
+        return transition
     }
 }

@@ -12,7 +12,7 @@ struct UserDetailBuilder: Builder {
 
     var user: User
     
-    func make(from: UIView?) -> UIViewController? {
+    func make(from view: UIView?) -> UIViewController? {
         
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         guard let controller = storyboard.instantiateViewController(withIdentifier: String(describing: UserViewController.self)) as? UserViewController else { return nil }

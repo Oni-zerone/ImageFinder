@@ -10,5 +10,5 @@ import UIKit
 
 protocol Builder {
     
-    func make(from: UIView?) -> UIViewController?
+    func make(from view: UIView?) -> UIViewController?
 }

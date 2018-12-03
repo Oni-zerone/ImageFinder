@@ -39,7 +39,7 @@ class UserViewController: UIViewController {
         super.viewWillAppear(animated)
         
         UIView.animate(withDuration: 0.5) {
-            self.view.backgroundColor = UIColor.deepNight.withAlphaComponent(0.8)
+            self.view.backgroundColor = UIColor.deepNight.withAlphaComponent(0.4)
         }
     }
     
