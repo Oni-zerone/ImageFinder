@@ -21,7 +21,9 @@ struct Image: Codable, Hashable {
     var color: String
     
     var description: String
-        
+    
+    var user: User
+    
     var links: Link
     
     var likes: Int

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct User: Codable {
+struct User: Codable, Hashable {
     
     var id: String
     
@@ -18,13 +18,20 @@ struct User: Codable {
     
     var profileImage: Avatar
     
-    struct Avatar: Codable {
+    var links: Links
+    
+    struct Avatar: Codable, Hashable {
         
         var small: String
         
         var medium: String
         
         var large: String
+    }
+    
+    struct Links: Codable, Hashable {
+        
+        var html: String
     }
 }
 
@@ -37,18 +44,18 @@ extension User {
         case large
     }
     
-    func avatar(size: AvatarSize) -> URL? {
+    func avatar(size: AvatarSize) -> String? {
         
         switch size {
             
         case .small:
-            return URL(string: self.profileImage.small)
+            return self.profileImage.small
             
         case .medium:
-            return URL(string: self.profileImage.medium)
+            return self.profileImage.medium
             
         case .large:
-            return URL(string: self.profileImage.large)
+            return self.profileImage.large
         }
     }
 }

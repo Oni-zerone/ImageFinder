@@ -53,6 +53,8 @@ struct ImageViewerContent: ViewerContent {
         return String(image.downloads)
     }
     
-    var userDetail: String { return "" }
-
+    var detailBuilder: Builder {
+        
+        return UserDetailBuilder(user: self.image.user)
+    }
 }

@@ -47,21 +47,3 @@ struct ImageViewModel: ItemViewModel, Hashable {
         }
     }
 }
-
-struct ImageLoader: Resource {
-    
-    init?(path: String?) {
-        
-        guard let path = path,
-            let url = URL(string: path) else {
-                return nil
-        }
-        self.cacheKey = path
-        self.downloadURL = url
-    }
-    
-    var cacheKey: String
-    
-    var downloadURL: URL
-}
-

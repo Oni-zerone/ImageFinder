@@ -20,13 +20,15 @@ protocol ViewerContent {
     var highResPath: String { get }
     
     var likes: String { get }
+    
+    var downloads: String { get }
         
-    var userDetail: String { get }
+    var detailBuilder: Builder { get }
 }
 
 class ViewerViewController: UIViewController {
 
-    var image: ImageViewerContent? {
+    var image: ViewerContent? {
         didSet {
             self.loadContent()
         }
@@ -42,6 +44,7 @@ class ViewerViewController: UIViewController {
     
     @IBOutlet weak var favoritesLabel: UILabel!
     @IBOutlet weak var downloadsLabel: UILabel!
+    @IBOutlet weak var userButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +54,7 @@ class ViewerViewController: UIViewController {
         self.navigationController?.navigationBar.barStyle = .blackTranslucent
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(tapZoom(_:)))
         doubleTap.numberOfTapsRequired = 2
-        self.view.addGestureRecognizer(doubleTap)
+        self.scrollView.addGestureRecognizer(doubleTap)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,6 +65,15 @@ class ViewerViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    @IBAction func showDetail(_ sender: Any) {
+        
+        guard let builder = self.image?.detailBuilder,
+            let detailController = builder.make(from: nil) else {
+                return
+        }
+        self.present(detailController, animated: true, completion: nil)
     }
     
     func loadContent() {
