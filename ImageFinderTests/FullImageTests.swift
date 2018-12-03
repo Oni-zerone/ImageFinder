@@ -25,7 +25,7 @@ class FullImageTests: XCTestCase {
         self.data = nil
     }
     
-    func testSearchResultParse() {
+    func testFullImageParse() {
         
         guard let data = self.data else {
             return XCTFail("invalid data")

@@ -21,8 +21,12 @@ struct Image: Codable, Hashable {
     var color: String
     
     var description: String
-        
+    
+    var user: User
+    
     var links: Link
+    
+    var likes: Int
     
     struct Link: Codable, Hashable {
         
@@ -36,5 +40,10 @@ extension Image {
 
     var ratio: Float {
         return Float(self.height) / Float(self.width)
+    }
+    
+    var creationDate: Date? {
+        
+        return DateFormatter.RFC3339.date(from: self.createdAt)
     }
 }

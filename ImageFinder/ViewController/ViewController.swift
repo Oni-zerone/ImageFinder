@@ -95,8 +95,21 @@ extension ViewController {
         
         let dataSource = CollectionDataSource(collection: self.collectionView)
         dataSource.scrollViewDelegate = self
+        dataSource.interactionDelegate = self
         let sourceStep = DataSourceStep(dataSource: dataSource)
         self.pipeline.append(sourceStep)
+    }
+}
+
+// MARK: - InteractionDelegate
+
+extension ViewController: InteractionDelegate {
+    
+    func didSelect(item: ItemViewModel, in collection: UICollectionView, at indexPath: IndexPath) {
+        
+        let cell = collection.cellForItem(at: indexPath)
+        guard let viewController = (item as? Builder)?.make(from: cell) else { return }
+        self.show(viewController, sender: self)
     }
 }
 

@@ -36,9 +36,8 @@ struct ImageViewModel: ItemViewModel, Hashable {
         }
         
         cell.descriptionLabel.text = self.image.description
-        cell.creationDateLabel.text = self.image.createdAt
+        cell.creationDateLabel.text =  self.image.creationDate?.simpleFormat ?? "--"
         cell.imageView.backgroundColor = UIColor(css: self.image.color)
-        
         
         guard let resource = ImageLoader(path: self.fullImage?.urls.thumb) else { return }
         cell.imageView.kf.setImage(with: resource) { (image, error, cacheType, url) in
@@ -47,21 +46,4 @@ struct ImageViewModel: ItemViewModel, Hashable {
             cell.imageView.image = image
         }
     }
-}
-
-struct ImageLoader: Resource {
-    
-    init?(path: String?) {
-        
-        guard let path = path,
-            let url = URL(string: path) else {
-                return nil
-        }
-        self.cacheKey = path
-        self.downloadURL = url
-    }
-    
-    var cacheKey: String
-    
-    var downloadURL: URL
 }

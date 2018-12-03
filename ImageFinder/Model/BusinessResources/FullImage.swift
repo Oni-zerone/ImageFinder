@@ -12,11 +12,15 @@ struct FullImage: Parsable, Hashable {
     
     let id: String
     
+    let downloads: Int
+    
     let urls: URLS
     
     struct URLS: Codable, Hashable {
         
         var full: String
+        
+        var regular: String
         
         var small: String
         
