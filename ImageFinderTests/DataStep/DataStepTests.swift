@@ -32,6 +32,8 @@ class DataStepTests: XCTestCase {
         imageLoader.provider = self.provider
         self.pipeline.append(imageLoader)
 
+        self.pipeline.append(DataStep())
+        
         let dummy = DummyDataStep()
         self.pipeline.append(dummy)
         dummy.successBlock = { model in
@@ -49,6 +51,28 @@ class DataStepTests: XCTestCase {
             })
         }
         imageLoader.queryString = "test_string"
+        wait(for: [expect], timeout: 10)
+    }
+    
+    func testEmptySearch() {
+        
+        let expect = expectation(description: "testEmptySearch_viewModel")
+        
+        let imageLoader = ImageLoadStep()
+        imageLoader.provider = self.provider
+        self.pipeline.append(imageLoader)
+        
+        self.pipeline.append(DataStep())
+        
+        let dummy = DummyDataStep()
+        self.pipeline.append(dummy)
+        dummy.failureBlock = { error in
+
+            defer { expect.fulfill() }
+
+            XCTAssert(ImageLoadErrors.noContent == (error as? ImageLoadErrors))
+        }
+        imageLoader.queryString = "empty"
         wait(for: [expect], timeout: 10)
     }
     

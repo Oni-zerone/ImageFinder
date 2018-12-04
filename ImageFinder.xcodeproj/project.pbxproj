@@ -264,8 +264,8 @@
 		97EFA1BD21B073120083EE84 /* ImageFinderTests */ = {
 			isa = PBXGroup;
 			children = (
-				978D157721B71CEC003E7954 /* DataStep */,
 				97EFA1C021B073120083EE84 /* Info.plist */,
+				978D157721B71CEC003E7954 /* DataStep */,
 				978D157421B710D8003E7954 /* APIManager */,
 				978D157321B70FB5003E7954 /* Parsing */,
 			);
