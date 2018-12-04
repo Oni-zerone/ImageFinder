@@ -37,7 +37,7 @@ class FullImageLoaderStep: DataStep {
                     section.setFullImage(fullImage, itemAt: index)
                     queue.leave()
                     
-                default:
+                case .failure:
                     queue.leave()
                 }
             })
