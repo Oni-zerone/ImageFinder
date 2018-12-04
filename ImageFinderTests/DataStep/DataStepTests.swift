@@ -145,6 +145,39 @@ class DataStepTests: XCTestCase {
         
         wait(for: [expect], timeout: 10)
     }
+    
+    func testFailureMessageDataStep() {
+        
+        let error = APIError.invalidURL
+        let expect = expectation(description: "testEmptySearch_viewModel")
+        
+        let messageStep = FailureMessageDataStep()
+        self.pipeline.append(messageStep)
+        
+        let dummy = DummyDataStep()
+        self.pipeline.append(dummy)
+        dummy.failureBlock = { error in
+            XCTFail()
+        }
+        dummy.successBlock = { model in
+            
+            defer { expect.fulfill() }
+            
+            guard let section = model.first as? MessageSectionViewModel else {
+                XCTFail()
+                return
+            }
+            
+            XCTAssert(section.items.count == 1)
+            guard let item = section.items.first as? MessageViewModel else {
+                XCTFail()
+                return
+            }
+            XCTAssert(item.message == (error as Error).localizedDescription)
+        }
+        messageStep.failed(with: error)
+        wait(for: [expect], timeout: 10)
+    }
 }
 
 class DummyDataStep: DataStep {
