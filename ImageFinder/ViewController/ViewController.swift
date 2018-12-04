@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     var pipeline: Pipeline!
     var loader: ImageLoadStep?
     
@@ -18,12 +22,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchBar: ExpandableSearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    weak private var dismissGesture: UITapGestureRecognizer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.searchBar.delegate = self
         self.searchBar.alpha = 0.0
         
+        self.setupGesture()
         self.registerCells()
         self.setupPipeline()
     }
@@ -48,6 +55,14 @@ class ViewController: UIViewController {
             self.searchBar.becomeFirstResponder()
         }
     }
+    
+    private func setupGesture() {
+
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissSearch(_:)))
+        gesture.delegate = self
+        self.view.addGestureRecognizer(gesture)
+        self.dismissGesture = gesture
+    }
 }
 
 // MARK: - Search Interaction
@@ -56,7 +71,6 @@ extension ViewController: ExpandableSearchBarDelegate {
     
     func searchBarDidBeginEditing(_ searchBar: ExpandableSearchBar) {
         
-        self.collectionView.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.3) {
             self.collectionView.alpha = 0.2
         }
@@ -64,7 +78,6 @@ extension ViewController: ExpandableSearchBarDelegate {
     
     func searchBar(_ searchBar: ExpandableSearchBar, didEndEditingWith string: String?) {
 
-        self.collectionView.isUserInteractionEnabled = true
         UIView.animate(withDuration: 0.3) {
             self.collectionView.alpha = 1
         }
@@ -74,6 +87,11 @@ extension ViewController: ExpandableSearchBarDelegate {
             return
         }
         self.loader?.queryString = string
+    }
+    
+    @objc func dismissSearch(_ sender: Any) {
+        
+        self.searchBar.textField.endEditing(true)
     }
 }
 
@@ -141,3 +159,22 @@ extension ViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - UIGestureRecognizer
+
+extension ViewController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return self.searchBar.textField.isEditing && !(self.searchBar.text?.isEmpty ?? true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        
+        return self.searchBar.textField.isEditing && !(self.searchBar.text?.isEmpty ?? true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return gestureRecognizer == self.dismissGesture
+    }
+}

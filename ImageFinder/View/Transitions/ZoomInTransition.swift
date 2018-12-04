@@ -43,13 +43,15 @@ class ZoomInAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
         let imageView = UIImageView(image: self.image)
         imageView.contentMode = .scaleAspectFit
         imageView.frame = originFrame
+        imageView.alpha = 0.0
         container.addSubview(imageView)
         
         UIView.animate(withDuration: 0.2, animations: {
             fromView.alpha = 0.0
+            imageView.alpha = 1.0
         }, completion: nil)
         
-        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.18, options: .curveEaseOut, animations: {
            
             if let destinationView = self.destinationView {
                 let frame = destinationView.convert(destinationView.bounds, to: container)
