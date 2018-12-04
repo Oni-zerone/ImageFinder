@@ -31,42 +31,87 @@ class APIManagerTests: XCTestCase {
     func testSearchRequest() {
         
         let queryString = "testWord"
+        let expect = expectation(description: "RequestCheck")
         
         self.session.requestCheckBlock = { request in
+            expect.fulfill()
             
-            guard let url = request.url?.absoluteString else {
+            guard let url = request.url else {
                 XCTFail("Invalid url")
                 return
             }
+            XCTAssert(url.path == "/search/photos")
+            XCTAssert(url.query == "client_id=test_key&query=\(queryString)&page=1")
             
-            XCTAssert(request.url?.path == "/search/photos")
-            XCTAssert(request.url?.query == "client_id=test_key&query=\(queryString)&page=1")
         }
         self.manager.getImages(for: queryString, page: 1) { (result) in
             
         }
+        wait(for: [expect], timeout: 1.0)
     }
 
+    func testSearchRequestSuccess() {
+        
+        let expect = expectation(description: "Resume")
+        
+        self.session.responseConfig = (data: DummyDataTask.searchData, response: nil, error: nil)
+        self.manager.getImages(for: "", page: 1) { (result) in
+            
+            switch result  {
+                
+            case .success(let searchResult):
+                XCTAssert(searchResult.results.count == 10)
+                
+            default:
+                XCTFail("invalid response")
+            }
+            
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 1.0)
+    }
+    
     func testFullImageRequest() {
         
         let imageId = "testId"
-        
+        let expect = expectation(description: "RequestCheck")
+
         self.session.requestCheckBlock = { request in
-            
-            guard let url = request.url?.absoluteString else {
+            expect.fulfill()
+
+            guard let url = request.url else {
                 XCTFail("Invalid url")
                 return
             }
-            
-            XCTAssert(request.url?.path == "/photos/\(imageId)")
-            XCTAssert(request.url?.query == "client_id=test_key")
+            XCTAssert(url.path == "/photos/\(imageId)")
+            XCTAssert(url.query == "client_id=test_key")
         }
         self.manager.getImage(imageId) { (result) in
 
         }
+        wait(for: [expect], timeout: 1.0)
     }
-
     
+    func testFullImageSuccess() {
+        
+        let expect = expectation(description: "Resume")
+        
+        self.session.responseConfig = (data: DummyDataTask.photoData, response: nil, error: nil)
+        self.manager.getImage("") { (result) in
+            
+            switch result  {
+                
+            case .success(let fullImage):
+                XCTAssert(fullImage.id == "8UcNYpynFLU")
+                
+            default:
+                XCTFail("invalid response")
+            }
+            
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 1.0)
+    }
 }
 
 class MockURLSession: URLSession {

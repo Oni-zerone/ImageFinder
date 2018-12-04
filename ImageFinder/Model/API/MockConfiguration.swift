@@ -24,11 +24,11 @@ class DummyDataTask: URLSessionDataTask {
     
     static let queue = DispatchQueue(label: "background.mock", qos: .background)
     
-    var searchData: Data {
+    static var searchData: Data {
         return DummyDataTask.photoSearchMock.data(using: .utf8)!
     }
     
-    var photoData: Data {
+    static var photoData: Data {
         return DummyDataTask.photoMock.data(using: .utf8)!
     }
     
@@ -49,13 +49,13 @@ class DummyDataTask: URLSessionDataTask {
         DummyDataTask.queue.asyncAfter(deadline: .now() + 0.2) {
             
             if self.request.url?.absoluteString.contains("https://api.unsplash.com/search/photos") ?? false {
-                let searchData = self.searchData
+                let searchData = DummyDataTask.searchData
                 self.completionHandler(searchData, URLResponse(url: self.request.url!, mimeType: nil, expectedContentLength: searchData.count, textEncodingName: "application/json"), nil)
                 return
             }
             
             if self.request.url?.absoluteString.contains("https://api.unsplash.com/photos/") ?? false {
-                let searchData = self.photoData
+                let searchData = DummyDataTask.photoData
                 self.completionHandler(searchData, URLResponse(url: self.request.url!, mimeType: nil, expectedContentLength: searchData.count, textEncodingName: "application/json"), nil)
                 return
             }
