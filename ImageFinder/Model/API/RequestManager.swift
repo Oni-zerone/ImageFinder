@@ -8,10 +8,15 @@
 
 import Foundation
 
-enum APIError: Error {
+enum APIError: String, Error {
     
-    case invalidURL
-    case unknownError
+    case invalidURL = "Invalid URL"
+    case unknownError = "Unknown Error"
+    case rateLimitExceded = "API rate limit exceded"
+    
+    var localizedDescription: String {
+        return self.rawValue
+    }
 }
 
 class APIManager {
@@ -22,7 +27,7 @@ class APIManager {
         case failure(Error)
     }
     
-    static var standard = APIManager(configuration: .production)
+    static var standard = APIManager(configuration: .mock)
     
     var configuration: Configuration
     
@@ -76,6 +81,12 @@ extension APIManager {
         
         let request = self.configuration.makeRequest(for: url)
         self.configuration.session.dataTask(with: request) { (data, response, error) in
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode == 403 {
+                completion(.failure(APIError.rateLimitExceded))
+                return
+            }
             
             guard let data = data, error == nil else {
                 completion(.failure(error ?? APIError.unknownError))

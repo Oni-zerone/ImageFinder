@@ -8,6 +8,15 @@
 
 import Foundation
 
+enum ImageLoadErrors: String, Error {
+    
+    case noContent = "No search results"
+
+    var localizedDescription: String {
+        return self.rawValue
+    }
+}
+
 class ImageLoadStep: DataStep {
     
     var provider: APIManager = .standard
@@ -63,6 +72,11 @@ class ImageLoadStep: DataStep {
                 return
                 
             case .success(let searchResults):
+                
+                guard searchResults.total > 0 else {
+                    self.sendContent(.error(ImageLoadErrors.noContent))
+                    return
+                }
                 
                 self.totalPages = searchResults.totalPages
                 let viewModels = searchResults.results.viewModels
