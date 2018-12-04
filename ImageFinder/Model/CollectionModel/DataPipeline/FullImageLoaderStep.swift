@@ -10,6 +10,7 @@ import Foundation
 
 class FullImageLoaderStep: DataStep {
     
+    static let queue = DispatchQueue(label: "ImageNotify")
     var provider: APIManager = .standard
     
     override func success(with model: CollectionModel) {
@@ -41,7 +42,7 @@ class FullImageLoaderStep: DataStep {
                     queue.leave()
                 }
             })
-            queue.notify(queue: DispatchQueue(label: "ImageNotify"), execute: {
+            queue.notify(queue: FullImageLoaderStep.queue, execute: {
                 model[0] = section
                 self.sendContent(.value(model))
             })
