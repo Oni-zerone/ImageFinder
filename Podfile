@@ -7,6 +7,10 @@ target 'ImageFinder' do
 
   target 'ImageFinderTests' do
     inherit! :search_paths
-    
   end
+  
+  target 'ImageFinderUITests' do
+      inherit! :search_paths
+  end
+
 end

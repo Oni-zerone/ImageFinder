@@ -51,7 +51,6 @@ class ViewerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.clipsToBounds = true
         self.navigationController?.navigationBar.barStyle = .blackTranslucent
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(tapZoom(_:)))
         doubleTap.numberOfTapsRequired = 2
@@ -64,6 +63,12 @@ class ViewerViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
 
         self.loadContent()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.view.clipsToBounds = true
     }
     
     @IBAction func showDetail(_ sender: Any) {
@@ -157,17 +162,17 @@ extension ViewerViewController: UIScrollViewDelegate {
         return self.imageView
     }
     
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         
         if !self.highRes,
-            scale > 2.5 {
+            scrollView.zoomScale > 3.5 {
             self.loadHighResContent()
             return
         }
 
         if !self.midRes,
             !self.highRes,
-            scale > 1.5 {
+            scrollView.zoomScale > 1.5 {
             self.loadMidResContent()
             return
         }
