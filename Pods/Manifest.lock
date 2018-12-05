@@ -1,0 +1,23 @@
+PODS:
+  - Kingfisher (4.10.1)
+  - "UIColor+Hex (1.0.1)":
+    - "UIColor+Hex/NSColor (= 1.0.1)"
+    - "UIColor+Hex/UIColor (= 1.0.1)"
+  - "UIColor+Hex/UIColor (1.0.1)"
+
+DEPENDENCIES:
+  - Kingfisher
+  - "UIColor+Hex"
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Kingfisher
+    - "UIColor+Hex"
+
+SPEC CHECKSUMS:
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  "UIColor+Hex": 9fee91bb8e19f17dd40a79ae1e98949a6a84489d
+
+PODFILE CHECKSUM: 3f2fa5c091baacc38ec140f411e3c8355a3c83b7
+
+COCOAPODS: 1.5.3
