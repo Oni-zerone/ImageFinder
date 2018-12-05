@@ -8,13 +8,9 @@
 
 import Foundation
 
-enum ImageLoadErrors: String, Error {
+enum ImageLoadErrors: String, ConvertibleError {
     
     case noContent = "No search results"
-
-    var localizedDescription: String {
-        return self.rawValue
-    }
 }
 
 class ImageLoadStep: DataStep {

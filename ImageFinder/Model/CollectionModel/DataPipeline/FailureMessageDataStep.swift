@@ -12,7 +12,9 @@ class FailureMessageDataStep: DataStep {
     
     override func failed(with error: Error) {
         
-        let messageViewModel = MessageViewModel(message: error.localizedDescription)
+        
+        let message = (error as? ConvertibleError)?.message ?? error.localizedDescription
+        let messageViewModel = MessageViewModel(message: message)
         let section = MessageSectionViewModel(extendedTopMargin: true, items: [messageViewModel])
         
         self.sendContent(.value([section]))

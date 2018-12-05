@@ -173,7 +173,7 @@ class DataStepTests: XCTestCase {
                 XCTFail()
                 return
             }
-            XCTAssert(item.message == (error as Error).localizedDescription)
+            XCTAssert(item.message == error.message)
         }
         messageStep.failed(with: error)
         wait(for: [expect], timeout: 10)

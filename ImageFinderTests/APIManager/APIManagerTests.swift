@@ -132,9 +132,9 @@ class MockURLSession: URLSession {
 
 class MockSessionDataTask: URLSessionDataTask {
     
-    enum DataError: Error {
+    enum DataError: String, ConvertibleError {
         
-        case notConfigured
+        case notConfigured = "Not Configured"
     }
     
     var config: (data: Data?, response: HTTPURLResponse?, error: Error?)?
