@@ -45,7 +45,7 @@ class ImageLoadStep: DataStep {
     func loadImages() {
         
         guard self.isLoading == false,
-            self.currentPage <= self.totalPages else {
+            self.currentPage <= self.totalPages || self.currentPage == 1 else {
                 return
         }
         
@@ -59,12 +59,13 @@ class ImageLoadStep: DataStep {
         
         self.provider.getImages(for: query, page: page) { (result) in
             
+            defer { self.isLoading = false }
+            
             switch result {
                 
             case .failure(let error):
                 if page == 1 {
                     self.failed(with: error)
-                    self.isLoading = false
                     return
                 }
                 let messageSection = self.prepareMessageSection(message: error.localizedDescription)
@@ -92,7 +93,6 @@ class ImageLoadStep: DataStep {
             }
             
             self.currentPage += 1
-            self.isLoading = false
         }
     }
     

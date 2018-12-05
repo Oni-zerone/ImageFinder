@@ -27,7 +27,7 @@ class APIManager {
         case failure(Error)
     }
     
-    static var standard = APIManager(configuration: .mock)
+    static var standard = APIManager(configuration: .production)
     
     var configuration: Configuration
     
