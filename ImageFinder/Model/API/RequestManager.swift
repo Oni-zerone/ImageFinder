@@ -8,15 +8,11 @@
 
 import Foundation
 
-enum APIError: String, Error {
+enum APIError: String, ConvertibleError {
     
     case invalidURL = "Invalid URL"
     case unknownError = "Unknown Error"
     case rateLimitExceded = "API rate limit exceded"
-    
-    var localizedDescription: String {
-        return self.rawValue
-    }
 }
 
 class APIManager {

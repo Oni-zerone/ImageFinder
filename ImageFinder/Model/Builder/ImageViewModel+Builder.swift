@@ -36,7 +36,7 @@ struct ImageViewerContent: ViewerContent {
     var fullImage: FullImage?
     
     var imageRatio: CGFloat {
-        return CGFloat(self.image.height) / CGFloat(self.image.width)
+        return CGFloat(self.image.ratio)
     }
     
     var lowResPath: String {
